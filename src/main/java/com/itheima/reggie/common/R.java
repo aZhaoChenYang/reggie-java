@@ -1,9 +1,14 @@
 package com.itheima.reggie.common;
 
 import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 通用返回结果，服务端响应的数据最终都会封装成此对象
+ * @param <T>
+ */
 @Data
 public class R<T> {
 
@@ -13,7 +18,7 @@ public class R<T> {
 
     private T data; //数据
 
-    private Map<String, Object> map = new HashMap<>(); //动态数据
+    private Map map = new HashMap(); //动态数据
 
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
@@ -23,7 +28,7 @@ public class R<T> {
     }
 
     public static <T> R<T> error(String msg) {
-        R<T> r = new R<T>();
+        R r = new R();
         r.msg = msg;
         r.code = 0;
         return r;
