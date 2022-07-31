@@ -77,7 +77,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping
-    public R<String> save(@RequestBody Employee employee){
+    public R<String> save(HttpServletRequest request,@RequestBody Employee employee){
         log.info("新增员工，员工信息：{}",employee.toString());
 
         //设置初始密码123456，需要进行md5加密处理
@@ -105,14 +105,14 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/page")
-    public R<Page<Employee>> page(int page, int pageSize, String name){
+    public R<Page> page(int page,int pageSize,String name){
         log.info("page = {},pageSize = {},name = {}" ,page,pageSize,name);
 
         //构造分页构造器
-        Page<Employee> pageInfo = new Page<Employee>(page,pageSize);
+        Page pageInfo = new Page(page,pageSize);
 
         //构造条件构造器
-        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper();
         //添加过滤条件
         queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
         //添加排序条件
@@ -130,7 +130,7 @@ public class EmployeeController {
      * @return
      */
     @PutMapping
-    public R<String> update(@RequestBody Employee employee){
+    public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
         log.info(employee.toString());
 
         long id = Thread.currentThread().getId();
